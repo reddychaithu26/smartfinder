@@ -1,6 +1,6 @@
 # 🔍 SmartFinder – Campus Lost & Found Tracking System
 
-A full-stack web application built with **Node.js + Express + EJS + lowdb (JSON database)**.
+A web technology based Lost & Found portal built using Node.js, Express.js, EJS, HTML, CSS, JavaScript, and lowdb (JSON database) for reporting and recovering misplaced student belongings.
 
 ---
 
