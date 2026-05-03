@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<div class="page-inner">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-title-icon">🤝</div>
+      <h2>Helpers List</h2>
+    </div>
+  </div>
+
+  <% if (helpers.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">🤝</div>
+      <h3>No helpers yet</h3>
+      <p>People who helped return items will appear here.</p>
+    </div>
+  <% } else { %>
+    <% helpers.forEach((h, i) => { %>
+      <div class="helper-card">
+        <div class="helper-num">Helper No. <%= i + 1 %></div>
+        <div class="helper-title">Helper Details:</div>
+        <div class="helper-row">
+          <span class="helper-key">Item helped for:</span>
+          <span class="helper-val"><%= h.item %> – <%= h.reporterDesc %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Helper Name:</span>
+          <span class="helper-val"><%= h.name %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Mobile Number:</span>
+          <span class="helper-val"><%= h.mobile %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Hostel Name:</span>
+          <span class="helper-val"><%= h.hostel %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Date:</span>
+          <span class="helper-val"><%= h.date %></span>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

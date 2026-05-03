@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<div class="page-inner">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-title-icon">🙋</div>
+      <h2>Claimers List</h2>
+    </div>
+  </div>
+
+  <% if (claims.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">🙋</div>
+      <h3>No claims yet</h3>
+      <p>People who claim found items will appear here.</p>
+    </div>
+  <% } else { %>
+    <% claims.forEach((c, i) => { %>
+      <div class="helper-card">
+        <div class="helper-num">Claim No. <%= i + 1 %></div>
+        <div class="helper-title">Claimer Details:</div>
+        <div class="helper-row">
+          <span class="helper-key">Item Claimed:</span>
+          <span class="helper-val"><%= c.itemName %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Claimer Name:</span>
+          <span class="helper-val"><%= c.name %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Mobile Number:</span>
+          <span class="helper-val"><%= c.mobile %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Location / Hostel:</span>
+          <span class="helper-val"><%= c.hostel %></span>
+        </div>
+        <div class="helper-row">
+          <span class="helper-key">Date:</span>
+          <span class="helper-val"><%= c.date %></span>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

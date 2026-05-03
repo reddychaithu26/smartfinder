@@ -1,0 +1,97 @@
+<%- include('partials/header') %>
+
+<div class="page-inner">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-title-icon">🗂️</div>
+      <h2>All Items</h2>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <a href="/items/all?filter=all"      class="filter-btn <%= filter==='all'      ?'active':'' %>">All</a>
+    <a href="/items/all?filter=lost"     class="filter-btn <%= filter==='lost'     ?'active':'' %>">Lost</a>
+    <a href="/items/all?filter=found"    class="filter-btn <%= filter==='found'    ?'active':'' %>">Found</a>
+    <a href="/items/all?filter=resolved" class="filter-btn <%= filter==='resolved' ?'active':'' %>">Resolved</a>
+  </div>
+
+  <% if (items.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">🔍</div>
+      <h3>No items found</h3>
+      <p>Nothing matches this filter.</p>
+    </div>
+  <% } else { %>
+    <div class="items-grid">
+      <% items.forEach(item => { %>
+        <div class="item-card">
+          <div class="item-top">
+            <div>
+              <div class="item-name"><%= item.name %></div>
+              <div class="item-desc"><%= item.desc %></div>
+              <div class="item-meta">Reported by <%= item.reporterName %> · <%= item.date %></div>
+            </div>
+            <% if (item.resolved) { %>
+              <span class="badge badge-resolved">✓ Resolved</span>
+            <% } else if (item.type === 'lost') { %>
+              <span class="badge badge-lost">⚠ Lost</span>
+            <% } else { %>
+              <span class="badge badge-found">✓ Found</span>
+            <% } %>
+          </div>
+
+          <% if (item.images && item.images.length) { %>
+            <div class="item-imgs">
+              <% item.images.forEach(img => { %>
+                <img src="<%= img %>" alt="item photo" class="item-img">
+              <% }) %>
+            </div>
+          <% } %>
+
+          <% if (item.reporterRoll === user.roll && !item.resolved) { %>
+            <div class="item-actions">
+              <form method="POST" action="/items/resolve/<%= item.id %>" style="display:inline">
+                <button type="submit" class="btn btn-success btn-sm"
+                  onclick="return confirm('Mark this item as resolved?')">✓ Mark Resolved</button>
+              </form>
+            </div>
+          <% } else if (item.type === 'found' && !item.resolved && item.reporterRoll !== user.roll) { %>
+            <div class="item-actions">
+              <button class="btn btn-primary btn-sm" onclick="openClaimModal(<%= item.id %>, '<%= item.name %>')">
+                Claim
+              </button>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+<!-- Claim Modal -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Claim Item: <span id="claimItemName"></span></h3>
+      <button class="close-btn" onclick="closeModal('claimModal')">✕</button>
+    </div>
+    <div class="claim-info">Provide your details so the item reporter can verify your claim.</div>
+    <form method="POST" id="claimForm" action="/claim/0">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" name="claimName" value="<%= user.name %>" required>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="text" name="claimMobile" placeholder="+91 XXXXX XXXXX" required>
+      </div>
+      <div class="form-group">
+        <label>Hostel / Location</label>
+        <input type="text" name="claimHostel" placeholder="Block A, Room 214" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:1rem">Submit Claim</button>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

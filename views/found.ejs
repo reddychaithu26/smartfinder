@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<div class="page-inner">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-title-icon">🟢</div>
+      <h2>Found Items</h2>
+    </div>
+  </div>
+
+  <p class="note">*See something that belongs to you? Hit Claim to let the finder know.*</p>
+
+  <% if (items.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">🔍</div>
+      <h3>No found items</h3>
+      <p>Nothing has been reported found yet.</p>
+    </div>
+  <% } else { %>
+    <div class="items-grid">
+      <% items.forEach(item => { %>
+        <div class="item-card">
+          <div class="item-top">
+            <div>
+              <div class="item-name"><%= item.name %></div>
+              <div class="item-desc"><%= item.desc %></div>
+              <div class="item-meta">Reported by <%= item.reporterName %> · <%= item.date %></div>
+            </div>
+            <span class="badge badge-found">✓ Found</span>
+          </div>
+
+          <% if (item.images && item.images.length) { %>
+            <div class="item-imgs">
+              <% item.images.forEach(img => { %>
+                <img src="<%= img %>" alt="item photo" class="item-img">
+              <% }) %>
+            </div>
+          <% } %>
+
+          <div class="item-actions">
+            <% if (item.reporterRoll === user.roll) { %>
+              <form method="POST" action="/items/resolve/<%= item.id %>" style="display:inline">
+                <button type="submit" class="btn btn-success btn-sm"
+                  onclick="return confirm('Mark as resolved?')">✓ Mark Resolved</button>
+              </form>
+            <% } else { %>
+              <button class="btn btn-primary btn-sm" onclick="openClaimModal(<%= item.id %>, '<%= item.name %>')">
+                Claim This Item
+              </button>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+<!-- Claim Modal -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Claim: <span id="claimItemName"></span></h3>
+      <button class="close-btn" onclick="closeModal('claimModal')">✕</button>
+    </div>
+    <div class="claim-info">📋 Provide your details so the finder can verify and return the item.</div>
+    <form method="POST" id="claimForm" action="/claim/0">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" name="claimName" value="<%= user.name %>" required>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="text" name="claimMobile" placeholder="+91 XXXXX XXXXX" required>
+      </div>
+      <div class="form-group">
+        <label>Hostel / Location</label>
+        <input type="text" name="claimHostel" placeholder="Block A, Room 214" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:1rem">Submit Claim</button>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

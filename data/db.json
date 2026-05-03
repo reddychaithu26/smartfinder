@@ -1,0 +1,69 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Reddy Chaithu",
+      "roll": "23881A05GM",
+      "email": "chaithu@college.edu",
+      "password": "$2a$10$CcuP.vBZS97CHHGdeBLifO49au9ENcKy.EvoKdpmuOFk963X2aYXe",
+      "createdAt": "2026-05-03T07:01:07.317Z"
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "ID Card",
+      "desc": "College ID card with blue lanyard tag",
+      "type": "lost",
+      "reporterRoll": "23881A05GM",
+      "reporterName": "Reddy Chaithu",
+      "images": [],
+      "resolved": false,
+      "date": "3/5/2026"
+    },
+    {
+      "id": 2,
+      "name": "Skybag Backpack",
+      "desc": "Navy blue Skybag with laptop compartment, galaxy print",
+      "type": "found",
+      "reporterRoll": "23881A05GM",
+      "reporterName": "Reddy Chaithu",
+      "images": [],
+      "resolved": false,
+      "date": "3/5/2026"
+    },
+    {
+      "id": 3,
+      "name": "Spectacles",
+      "desc": "Black rimmed glasses in brown case",
+      "type": "lost",
+      "reporterRoll": "OTHER",
+      "reporterName": "Priya Sharma",
+      "images": [],
+      "resolved": false,
+      "date": "3/5/2026"
+    }
+  ],
+  "helpers": [
+    {
+      "id": 1,
+      "item": "Chain",
+      "reporterDesc": "ykjdkfjdf",
+      "name": "Riya",
+      "mobile": "9000000001",
+      "hostel": "Near office",
+      "date": "7/12/2024, 5:51:54 pm"
+    },
+    {
+      "id": 2,
+      "item": "Keys",
+      "reporterDesc": "skdcnalkc",
+      "name": "Arjun Mehta",
+      "mobile": "9876543210",
+      "hostel": "Block B Room 102",
+      "date": "8/12/2024, 3:12:00 pm"
+    }
+  ],
+  "claims": [],
+  "nextId": 10
+}

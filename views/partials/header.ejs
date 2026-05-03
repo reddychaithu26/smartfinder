@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> – SmartFinder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">🔍</div>
+    SmartFinder
+  </a>
+
+  <div class="nav-links">
+    <% if (user) { %>
+      <a href="/"             class="nav-link <%= title==='Home'        ?'active':'' %>">Home</a>
+      <a href="/items/my"     class="nav-link <%= title==='My Items'    ?'active':'' %>">My Items</a>
+      <a href="/items/all"    class="nav-link <%= title==='All Items'   ?'active':'' %>">All Items</a>
+      <a href="/items/lost"   class="nav-link <%= title==='Lost Items'  ?'active':'' %>">Lost</a>
+      <a href="/items/found"  class="nav-link <%= title==='Found Items' ?'active':'' %>">Found</a>
+      <a href="/items/raise"  class="nav-link <%= title==='Raise a Concern'?'active':'' %>">Raise a Concern</a>
+      <a href="/helpers"      class="nav-link <%= title==='Helpers List'?'active':'' %>">Helpers</a>
+      <a href="/claimers"     class="nav-link <%= title==='Claimers List'?'active':'' %>">Claimers</a>
+      <a href="/logout"       class="nav-link logout">Logout</a>
+    <% } else { %>
+      <a href="/"       class="nav-link <%= title==='Home'   ?'active':'' %>">Home</a>
+      <a href="/signup" class="nav-link <%= title==='Sign Up'?'active':'' %>">Sign Up</a>
+      <a href="/signin" class="nav-link <%= title==='Sign In'?'active':'' %>">Sign In</a>
+    <% } %>
+  </div>
+
+  <% if (user) { %>
+  <div class="nav-user">
+    <div class="nav-avatar"><%= user.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() %></div>
+    <span class="nav-username"><%= user.roll %></span>
+  </div>
+  <% } %>
+</nav>

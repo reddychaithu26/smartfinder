@@ -1,0 +1,67 @@
+<%- include('partials/header') %>
+
+<% if (user) { %>
+<!-- ── LOGGED IN DASHBOARD ── -->
+<div class="page-inner">
+  <div class="dash-welcome">
+    <div>
+      <div class="section-tag">Dashboard</div>
+      <h2>Welcome back, <span class="brand-text"><%= user.name %> (<%= user.roll %>)</span></h2>
+      <p class="sub-text">Manage your lost &amp; found items from here.</p>
+    </div>
+    <a href="/items/raise" class="btn btn-primary">+ Raise a Concern</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.lost %></div>
+      <div class="stat-lbl">Items Lost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.found %></div>
+      <div class="stat-lbl">Items Found</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.resolved %></div>
+      <div class="stat-lbl">Resolved</div>
+    </div>
+  </div>
+
+  <div class="quick-links">
+    <a href="/items/my"    class="ql-card">📦<span>My Items</span></a>
+    <a href="/items/all"   class="ql-card">🗂️<span>All Items</span></a>
+    <a href="/items/lost"  class="ql-card">🔴<span>Lost</span></a>
+    <a href="/items/found" class="ql-card">🟢<span>Found</span></a>
+    <a href="/helpers"     class="ql-card">🤝<span>Helpers</span></a>
+    <a href="/claimers"    class="ql-card">🙋<span>Claimers</span></a>
+  </div>
+</div>
+
+<% } else { %>
+<!-- ── GUEST HERO ── -->
+<div class="hero">
+  <div class="hero-badge">🎓 Campus Lost &amp; Found System</div>
+  <h1>Never Lose Track of <span class="brand-text">What Matters</span></h1>
+  <p>SmartFinder helps students report, track, and recover lost or found items on campus — fast and effortlessly.</p>
+  <div class="hero-btns">
+    <a href="/signin" class="btn btn-primary">Sign In to Continue</a>
+    <a href="/signup" class="btn btn-secondary">Create Account</a>
+  </div>
+  <div class="stats-row" style="max-width:560px;margin:3rem auto 0">
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.lost %></div>
+      <div class="stat-lbl">Items Lost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.found %></div>
+      <div class="stat-lbl">Items Found</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num"><%= stats.resolved %></div>
+      <div class="stat-lbl">Resolved</div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<%- include('partials/footer') %>

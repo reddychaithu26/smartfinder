@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFinder — Lost & Found Tracking System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">🔍</div>
+    SmartFinder
+  </div>
+  <div class="nav-links" id="navLinks">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('signup')">Sign Up</button>
+    <button class="nav-link" onclick="showPage('signin')">Sign In</button>
+  </div>
+  <div id="navUser" style="display:none" class="nav-user">
+    <div class="nav-avatar" id="navInitials">RC</div>
+    <span id="navName"></span>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CLAIM MODAL -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Claim This Item</h3>
+      <button class="close-btn" onclick="closeModal('claimModal')">✕</button>
+    </div>
+    <div class="claim-info">Provide your details so the item reporter can verify your claim.</div>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="claimName" placeholder="Your full name">
+    </div>
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input type="text" id="claimMobile" placeholder="+91 XXXXX XXXXX">
+    </div>
+    <div class="form-group">
+      <label>Hostel / Location</label>
+      <input type="text" id="claimHostel" placeholder="Block A, Room 214">
+    </div>
+    <button class="btn btn-primary btn-full mt-2" onclick="submitClaim()">Submit Claim</button>
+  </div>
+</div>
+
+<!-- RESOLVE MODAL -->
+<div class="modal-overlay" id="resolveModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Mark as Resolved</h3>
+      <button class="close-btn" onclick="closeModal('resolveModal')">✕</button>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem">Mark this item as resolved once you've recovered it or the situation is settled.</p>
+    <button class="btn btn-success btn-full" onclick="confirmResolve()">Yes, Mark Resolved</button>
+    <button class="btn btn-secondary btn-full mt-1" onclick="closeModal('resolveModal')">Cancel</button>
+  </div>
+</div>
+
+<!-- ====== HOME PAGE ====== -->
+<div class="page active" id="page-home">
+  <div class="hero" id="heroGuest">
+    <div class="hero-badge">🎓 Campus Lost & Found System</div>
+    <h1>Never Lose Track of <span>What Matters</span></h1>
+    <p>SmartFinder helps students report, track, and recover lost or found items on campus — fast and effortlessly.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('signin')">Sign In to Continue</button>
+      <button class="btn btn-secondary" onclick="showPage('signup')">Create Account</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="statLost">0</div><div class="stat-lbl">Items Lost</div></div>
+      <div class="stat-card"><div class="stat-num" id="statFound">0</div><div class="stat-lbl">Items Found</div></div>
+      <div class="stat-card"><div class="stat-num" id="statResolved">0</div><div class="stat-lbl">Resolved</div></div>
+    </div>
+  </div>
+  <div style="display:none" id="heroDash">
+    <div class="page-inner">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
+        <div>
+          <div class="section-tag">Dashboard</div>
+          <h2 style="font-size:1.5rem">Welcome back, <span id="dashName" style="color:var(--brand)"></span></h2>
+          <p style="color:var(--muted);font-size:14px;margin-top:4px">Manage your lost &amp; found items below.</p>
+        </div>
+        <button class="btn btn-primary" style="margin-left:auto" onclick="showPage('raise')">+ Raise a Concern</button>
+      </div>
+      <div class="stats-row" style="max-width:100%">
+        <div class="stat-card"><div class="stat-num" id="dashLost">0</div><div class="stat-lbl">Items Lost</div></div>
+        <div class="stat-card"><div class="stat-num" id="dashFound">0</div><div class="stat-lbl">Items Found</div></div>
+        <div class="stat-card"><div class="stat-num" id="dashResolved">0</div><div class="stat-lbl">Resolved</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SIGN UP ====== -->
+<div class="page" id="page-signup">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p class="auth-sub">Join SmartFinder to report and track items</p>
+      <div class="form-group"><label>Full Name</label><input type="text" id="suName" placeholder="John Doe"></div>
+      <div class="form-group"><label>Roll Number</label><input type="text" id="suRoll" placeholder="23881A05GM"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="suEmail" placeholder="john@college.edu"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="suPass" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" id="suConfirm" placeholder="Repeat password"></div>
+      <button class="btn btn-primary btn-full" style="margin-top:.5rem" onclick="doSignup()">Create Account</button>
+      <p class="auth-switch">Already have an account? <a onclick="showPage('signin')">Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SIGN IN ====== -->
+<div class="page" id="page-signin">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Welcome Back</h2>
+      <p class="auth-sub">Sign in to your SmartFinder account</p>
+      <div class="form-group"><label>Roll Number</label><input type="text" id="siRoll" placeholder="23881A05GM"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="siPass" placeholder="Your password"></div>
+      <button class="btn btn-primary btn-full" style="margin-top:.5rem" onclick="doSignin()">Sign In</button>
+      <p class="auth-switch">New here? <a onclick="showPage('signup')">Create account</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== MY ITEMS ====== -->
+<div class="page" id="page-myitems">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">📦</div>
+        <h2>My Items</h2>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="showPage('raise')">+ New Concern</button>
+    </div>
+    <p class="note">*Raise a concern first to have items appear here.*</p>
+    <div class="items-grid" id="myItemsList"></div>
+  </div>
+</div>
+
+<!-- ====== ALL ITEMS ====== -->
+<div class="page" id="page-allitems">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">🗂️</div>
+        <h2>All Items</h2>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterAll('all',this)">All</button>
+      <button class="filter-btn" onclick="filterAll('lost',this)">Lost</button>
+      <button class="filter-btn" onclick="filterAll('found',this)">Found</button>
+      <button class="filter-btn" onclick="filterAll('resolved',this)">Resolved</button>
+    </div>
+    <div class="items-grid" id="allItemsList"></div>
+  </div>
+</div>
+
+<!-- ====== LOST ITEMS ====== -->
+<div class="page" id="page-lost">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">🔴</div>
+        <h2>Lost Items</h2>
+      </div>
+    </div>
+    <div class="items-grid" id="lostList"></div>
+  </div>
+</div>
+
+<!-- ====== FOUND ITEMS ====== -->
+<div class="page" id="page-found">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">🟢</div>
+        <h2>Found Items</h2>
+      </div>
+    </div>
+    <div class="items-grid" id="foundList"></div>
+  </div>
+</div>
+
+<!-- ====== RAISE A CONCERN ====== -->
+<div class="page" id="page-raise">
+  <div class="auth-wrap">
+    <div class="auth-card" style="max-width:520px">
+      <h2>Report Lost or Found Item</h2>
+      <p class="auth-sub">Fill in the details to raise a concern</p>
+      <div class="form-group"><label>Item Name</label><input type="text" id="raiseItemName" placeholder="e.g. ID Card, Bag, Keys..."></div>
+      <div class="form-group"><label>Item Description</label><textarea id="raiseDesc" placeholder="Describe the item — color, brand, any identifying marks..."></textarea></div>
+      <div class="form-group">
+        <label>Concern Type</label>
+        <select id="raiseType">
+          <option value="lost">Lost</option>
+          <option value="found">Found</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Proof Photos (optional)</label>
+        <div class="file-input-wrap" onclick="document.getElementById('raisePhotos').click()">
+          <input type="file" id="raisePhotos" multiple accept="image/*" onchange="previewFiles(this)">
+          📷 Click to choose files
+          <div id="photoPreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full mt-2" onclick="submitRaise()">Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== HELPERS ====== -->
+<div class="page" id="page-helpers">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">🤝</div>
+        <h2>Helpers List</h2>
+      </div>
+    </div>
+    <div id="helpersList"></div>
+  </div>
+</div>
+
+<!-- ====== CLAIMERS ====== -->
+<div class="page" id="page-claimers">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-title-row">
+        <div class="page-title-icon">🙋</div>
+        <h2>Claimers List</h2>
+      </div>
+    </div>
+    <div id="claimesList"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

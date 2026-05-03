@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrap">
+  <div class="auth-card" style="max-width:540px">
+    <h2>Report Lost or Found Item</h2>
+    <p class="auth-sub">Fill in the details to raise a concern</p>
+
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/items/raise" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="itemName">Item Name</label>
+        <input type="text" id="itemName" name="itemName" placeholder="e.g. ID Card, Bag, Keys…" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Item Description</label>
+        <textarea id="description" name="description"
+          placeholder="Describe the item — color, brand, any identifying marks…" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Concern Type</label>
+        <select id="type" name="type" required>
+          <option value="lost">Lost</option>
+          <option value="found">Found</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Proof Photos <span style="font-weight:400;color:var(--muted)">(optional, max 5)</span></label>
+        <div class="file-input-wrap" onclick="document.getElementById('photos').click()">
+          <input type="file" id="photos" name="photos" multiple accept="image/*"
+            onchange="previewPhotos(this)">
+          📷 Click to choose photos
+          <div id="photoPreview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:1rem">Submit Report</button>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

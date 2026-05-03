@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<div class="page-inner">
+  <div class="page-header">
+    <div class="page-title-row">
+      <div class="page-title-icon">📦</div>
+      <h2>My Items</h2>
+    </div>
+    <a href="/items/raise" class="btn btn-primary btn-sm">+ New Concern</a>
+  </div>
+
+  <p class="note">*Raise a concern first to have items appear here.*</p>
+
+  <% if (items.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">📭</div>
+      <h3>No items yet</h3>
+      <p>Raise a concern to add your first item.</p>
+      <a href="/items/raise" class="btn btn-primary" style="margin-top:1rem">Raise a Concern</a>
+    </div>
+  <% } else { %>
+    <div class="items-grid">
+      <% items.forEach(item => { %>
+        <div class="item-card">
+          <div class="item-top">
+            <div>
+              <div class="item-name"><%= item.name %></div>
+              <div class="item-desc"><%= item.desc %></div>
+              <div class="item-meta">Reported by <%= item.reporterName %> · <%= item.date %></div>
+            </div>
+            <% if (item.resolved) { %>
+              <span class="badge badge-resolved">✓ Resolved</span>
+            <% } else if (item.type === 'lost') { %>
+              <span class="badge badge-lost">⚠ Lost</span>
+            <% } else { %>
+              <span class="badge badge-found">✓ Found</span>
+            <% } %>
+          </div>
+
+          <% if (item.images && item.images.length) { %>
+            <div class="item-imgs">
+              <% item.images.forEach(img => { %>
+                <img src="<%= img %>" alt="item photo" class="item-img">
+              <% }) %>
+            </div>
+          <% } %>
+
+          <% if (!item.resolved) { %>
+            <div class="item-actions">
+              <form method="POST" action="/items/resolve/<%= item.id %>" style="display:inline">
+                <button type="submit" class="btn btn-success btn-sm"
+                  onclick="return confirm('Mark this item as resolved?')">
+                  ✓ Mark Resolved
+                </button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
